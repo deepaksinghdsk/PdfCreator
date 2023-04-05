@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "428875065696",
+    "firebase_url": "https://pdf-creator-b7248.firebaseio.com",
+    "project_id": "pdf-creator-b7248",
+    "storage_bucket": "pdf-creator-b7248.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428875065696:android:d3f68b7696e4e8e72b5605",
+        "android_client_info": {
+          "package_name": "com.example.PdfCreator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428875065696-p8ice15s0ku9bavotom7t61okf4p6kcu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.PdfCreator",
+            "certificate_hash": "d5434cd12517118bbe2c28fc78537021a603c43b"
+          }
+        },
+        {
+          "client_id": "428875065696-fil1dt341els1e1ivq2fk5fvj5d36jkc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2TD4EP08nDJi968ZZSHaPE9Gk9fGaglo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428875065696-fil1dt341els1e1ivq2fk5fvj5d36jkc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
