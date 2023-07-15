@@ -1,5 +1,5 @@
 ﻿# PdfCreator
-This is an android PDF creator application for the purpose of creating and reading PDF files.
+This is an android PDF creator application for the purpose of creating (with multiple options), reading and sharing PDF files.
 
 # Screen-shots
 <image align="left" width="300" src="./screenshots/1.jpg">
