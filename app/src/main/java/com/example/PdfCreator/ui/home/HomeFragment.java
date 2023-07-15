@@ -58,6 +58,7 @@ public class HomeFragment extends Fragment {
 
         listView = root.findViewById(R.id.list);
         listView.setLayoutManager(new LinearLayoutManager(c));
+
         final ConstraintLayout mainContainer = root.findViewById(R.id.mainContainer);
 
         new Thread(new Runnable() {
@@ -93,25 +94,35 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    public void onBackPressed(){
+
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         //super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment1menu, menu);
 
         MenuItem item = menu.findItem(R.id.search);
-        SearchView sv = (SearchView) item.getActionView();
+        final SearchView sv = (SearchView) item.getActionView();
 
         sv.setQueryHint("Search pdf");
+
+
+
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                //adapter.getFilter().filter(query);
+                sv.clearFocus();
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
-                return false;
+                //sv.clearFocus();
+                return true;
             }
         });
     }
@@ -142,15 +153,15 @@ public class HomeFragment extends Fragment {
                 PDFDoc pdfDoc;
 
                 Uri externalUri;// = MediaStore.Files.getContentUri("external");
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
+                /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
                     externalUri = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL);
-                else
+                else*/
                     externalUri = MediaStore.Files.getContentUri("external");
 
                 Uri internalUri;// = MediaStore.Files.getContentUri("internal");
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
+                /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
                     internalUri = MediaStore.Files.getContentUri(MediaStore.VOLUME_INTERNAL);
-                else
+                else*/
                     internalUri = MediaStore.Files.getContentUri("internal");
 
 
@@ -189,11 +200,14 @@ public class HomeFragment extends Fragment {
                     Log.i(tag, "cursor is null in else block of code for android block for 10");
 
                 Log.i(tag, "getting PDFs first time");
+                Log.i(tag, "All pdfs fetched, no: "+pdfDocs.size());
 
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         bar.setVisibility(View.GONE);
+                        //custom_adapter.allPdfDocs = pdfDocs;
+                        //adapter = custom_adapter.instance(c, pdfDocs, 1);
                         adapter = new custom_adapter(c, pdfDocs, 1);
                         listView.setAdapter(adapter);
                         Log.i(tag, "Grid view is configured with adapter");
@@ -211,7 +225,10 @@ public class HomeFragment extends Fragment {
             /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
             } else {*/
-            ActivityCompat.requestPermissions(this.requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+            //ActivityCompat.requestPermissions(this.requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+            //this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+            this.requestPermissions(new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, 101);
+
             //}
         } else {
             getPDFs();
@@ -221,15 +238,15 @@ public class HomeFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        Log.d(tag, "inside permission result "+requestCode);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d(tag, "inside permission result");
         if (requestCode == 101) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(c, "Permission is required to show available PDF files.", Toast.LENGTH_LONG).show();
                 Log.i(tag, "permission is not granted");
             } else {
                 getPDFs();
-                Log.i(tag, "permission is already granted");
+                Log.i(tag, "permission is granted");
             }
         }
     }

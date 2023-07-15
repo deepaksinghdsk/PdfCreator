@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.PdfCreator.R;
 import com.example.PdfCreator.about;
 import com.example.PdfCreator.imagePicker.image_picker;
+import com.example.PdfCreator.imagePicker.images;
 import com.vlk.multimager.activities.MultiCameraActivity;
 import com.vlk.multimager.utils.Constants;
 import com.vlk.multimager.utils.Params;
@@ -125,19 +126,28 @@ public class CreateFragment extends Fragment implements View.OnClickListener {
 
         mArrayUri.clear();
         switch (requestCode) {
-            case Constants.TYPE_MULTI_CAPTURE:
-            case Constants.TYPE_MULTI_PICKER:
-                ArrayList<com.vlk.multimager.utils.Image> imagesList = data.getParcelableArrayListExtra(Constants.KEY_BUNDLE_LIST);
+            case getImageFromImagePickerClass:
+                ArrayList<images> imagesList = data.getParcelableArrayListExtra("imageList");
                 if (imagesList != null) {
                     Log.d(tag, "number of images returned from multi image picker are " + imagesList.size());
-                    for (com.vlk.multimager.utils.Image img : imagesList) {
+                    for (images img : imagesList) {
+                        mArrayUri.add(img.uri);
+                    }
+                    createPdf(mArrayUri);
+                }
+                break;
+            case Constants.TYPE_MULTI_CAPTURE:
+            case Constants.TYPE_MULTI_PICKER:
+                ArrayList<com.vlk.multimager.utils.Image> imageList = data.getParcelableArrayListExtra(Constants.KEY_BUNDLE_LIST);
+                if (imageList != null) {
+                    Log.d(tag, "number of images returned from multi image picker are " + imageList.size());
+                    for (com.vlk.multimager.utils.Image img : imageList) {
                         mArrayUri.add(img.uri);
                     }
                     createPdf(mArrayUri);
                 }
                 break;
             case fileExplorerCode:
-            case getImageFromImagePickerClass:
             case imageFromGalleryCode:
                 if (data.getData() != null) {
 

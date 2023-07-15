@@ -29,25 +29,29 @@ import java.util.Objects;
 public class custom_adapter extends RecyclerView.Adapter<custom_adapter.viewHolder1> implements Filterable {
 
 
-    private static List<PDFDoc> allPdfDocs;
+    public final List<PDFDoc> allPdfDocs = new ArrayList<>();
     private Context c;
     private int type;
     private List<PDFDoc> pdfDoc;
+    private final String tag = "adapter";
     private List<Uri> images;
-    private Filter filter = new Filter() {
+
+    private final Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
             List<PDFDoc> filteredList = new ArrayList<>();
-            if (constraint == null || constraint.length() == 0)
+            if (constraint == null || constraint.length() == 0){
                 filteredList.addAll(allPdfDocs);
+                Log.d(tag, "search text length 0, allPdfDocs size: "+allPdfDocs.size()+"\nfilteredList size: "+filteredList.size());
+            }
             else {
                 String filterString = constraint.toString().trim().toLowerCase();
-                for (PDFDoc item : allPdfDocs) {
-                    if (item.getName().trim().contains(filterString)) {
+                for (PDFDoc item : allPdfDocs)
+                    if (item.getName().trim().contains(filterString))
                         filteredList.add(item);
-                    }
-                }
+
+                Log.d(tag, "search text length "+constraint.length()+", allPdfDocs size: "+allPdfDocs.size()+"\nfilteredList size: "+filteredList.size());
             }
 
             FilterResults results = new FilterResults();
@@ -58,7 +62,7 @@ public class custom_adapter extends RecyclerView.Adapter<custom_adapter.viewHold
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             pdfDoc.clear();
-            pdfDoc.addAll((List) results.values);
+            pdfDoc.addAll((List<PDFDoc>) results.values);
             notifyDataSetChanged();
         }
     };
@@ -66,10 +70,10 @@ public class custom_adapter extends RecyclerView.Adapter<custom_adapter.viewHold
     public custom_adapter(Context c, ArrayList<PDFDoc> pdfDocs, int layoutType) {
         this.c = c;
         this.pdfDoc = pdfDocs;
-        allPdfDocs = pdfDocs;
+        allPdfDocs.addAll(pdfDocs);
         this.type = layoutType;
+        Log.d(tag, "new instance created");
     }
-
 
     public custom_adapter(Context c, int layoutType, ArrayList<Uri> images) {
         this.c = c;
@@ -81,7 +85,6 @@ public class custom_adapter extends RecyclerView.Adapter<custom_adapter.viewHold
     @Override
     public viewHolder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(c).inflate(R.layout.grid_view_model, parent, false);
-
         return new viewHolder1(view);
     }
 
@@ -126,6 +129,7 @@ public class custom_adapter extends RecyclerView.Adapter<custom_adapter.viewHold
 
     @Override
     public int getItemCount() {
+        //Log.i(tag, "pdfDoc size: "+pdfDoc.size());
         return type == 1 ? pdfDoc.size() : images.size();
     }
 
@@ -150,6 +154,20 @@ public class custom_adapter extends RecyclerView.Adapter<custom_adapter.viewHold
     public Filter getFilter() {
         return filter;
     }
+
+    static class viewHolder1 extends RecyclerView.ViewHolder {
+
+        public TextView pdfName;
+        public ImageView imageView;
+
+        public viewHolder1(@NonNull View itemView) {
+            super(itemView);
+
+            pdfName = itemView.findViewById(R.id.pdfName);
+            imageView = itemView.findViewById(R.id.sharePDF);
+        }
+    }
+
 
    /* @Override
     public View getView(final int position, View view, ViewGroup parent) {
@@ -234,17 +252,4 @@ public class custom_adapter extends RecyclerView.Adapter<custom_adapter.viewHold
     public int getCount() {
         return type == 1 ? pdfDoc.size() : images.size();
     }*/
-
-    class viewHolder1 extends RecyclerView.ViewHolder {
-
-        public TextView pdfName;
-        public ImageView imageView;
-
-        public viewHolder1(@NonNull View itemView) {
-            super(itemView);
-
-            pdfName = itemView.findViewById(R.id.pdfName);
-            imageView = itemView.findViewById(R.id.sharePDF);
-        }
-    }
 }

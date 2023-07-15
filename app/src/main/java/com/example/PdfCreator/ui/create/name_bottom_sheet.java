@@ -78,7 +78,9 @@ public class name_bottom_sheet extends BottomSheetDialogFragment implements View
 
         close.setOnClickListener(this);
         save.setOnClickListener(this);
+
         docThread = new createDoc();
+        //90 is the quality parameter, can be from 0-100
         docThread.execute(90);
 
         return v;
@@ -110,15 +112,20 @@ public class name_bottom_sheet extends BottomSheetDialogFragment implements View
             if (list != null && !list.isEmpty()) {
                 for (Uri uri : list) {
                     //Uri uri = parcel;
+
+                    Log.d(tag, "uri: "+uri.toString());
                     if (this.isCancelled()) {
                         return false;
                     }
 
                     try {
-                                    /*ByteBuffer buffer = img.getPlanes()[0].getBuffer();
-                                      byte[] bytes = new byte[buffer.capacity()];
-                                      buffer.get(bytes);
-                                      Bitmap bitFImg = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);*/
+                        /*ByteBuffer buffer = img.getPlanes()[0].getBuffer();
+                          byte[] bytes = new byte[buffer.capacity()];
+                          buffer.get(bytes);
+                          Bitmap bitFImg = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);*/
+
+                        uri = Uri.fromFile(new File(String.valueOf(uri)));
+
                         Bitmap bit = BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri));
                         ByteArrayOutputStream out = new ByteArrayOutputStream();
                         bit.compress(Bitmap.CompressFormat.JPEG, quality[0], out);
@@ -220,7 +227,7 @@ public class name_bottom_sheet extends BottomSheetDialogFragment implements View
             }
             File file = new File(loc, names[0] + ".pdf");
 
-            //Log.d(tag, "file location = "+file.toString());
+            Log.d(tag, "file location = "+file.toString());
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 try {
                     document.writeTo(fos);
@@ -235,6 +242,7 @@ public class name_bottom_sheet extends BottomSheetDialogFragment implements View
             this.publishProgress();
 
             Uri data = FileProvider.getUriForFile(c, c.getApplicationContext().getPackageName() + ".provider", file);
+            Log.d(tag, "file URI: "+data.toString());
 
             //call media scanner class to scan newly created file
             new MyMediaScannerConnectionClient(c, file, "application/pdf");

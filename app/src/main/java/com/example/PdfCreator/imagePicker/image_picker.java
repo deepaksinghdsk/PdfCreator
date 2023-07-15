@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -31,6 +32,8 @@ public class image_picker extends AppCompatActivity {
 
     private Context c;
     RecyclerView imageGrid;
+    private final String tag = "image_picker";
+    //private image_picker_adapter adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +64,13 @@ public class image_picker extends AppCompatActivity {
             else
                 internalUri = MediaStore.Images.Media.INTERNAL_CONTENT_URI;
 
-            String[] columns = {MediaStore.Images.ImageColumns.DATA};
+            //projection
+            String[] columns = {MediaStore.Images.ImageColumns.DATA, MediaStore.Images.Media.DATE_ADDED};
 
-            Cursor cursor = c.getContentResolver().query(externalUri, columns, null, null, null);
+            // Log.d(tag, "ExternalUri: "+externalUri+"\ninternalUri: "+internalUri);
+
+            String sort = MediaStore.Images.Media.DATE_ADDED + " DESC";
+            Cursor cursor = c.getContentResolver().query(externalUri, columns, null, null, sort);
 
             if (cursor != null) {
                 int dataColumn = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
@@ -74,7 +81,7 @@ public class image_picker extends AppCompatActivity {
                 cursor.close();
             }
 
-            Cursor cursor2 = c.getContentResolver().query(internalUri, columns, null, null, null);
+            Cursor cursor2 = c.getContentResolver().query(internalUri, columns, null, null, sort);
 
             if (cursor2 != null) {
                 int dataColumn = cursor2.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
@@ -84,6 +91,7 @@ public class image_picker extends AppCompatActivity {
                 cursor2.close();
             }
 
+            Log.i(tag, "Total images: "+images.size());
             return images;
         }
 
@@ -106,8 +114,11 @@ public class image_picker extends AppCompatActivity {
         if (item.getItemId() == R.id.send) {
             Intent returnIntent = new Intent();
 
-            ClipData clipData = (ClipData) image_picker_adapter.selectedImages;
-            returnIntent.setClipData(clipData);
+            returnIntent.putParcelableArrayListExtra("imageList",
+                    image_picker_adapter.selectedImages);
+
+            //ClipData clipData = (ClipData) image_picker_adapter.selectedImages;
+            //returnIntent.setClipData(clipData);
 
             setResult(Activity.RESULT_OK, returnIntent);
             finish();

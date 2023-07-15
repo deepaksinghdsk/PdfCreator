@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="main" />
+            app:title="main"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -29,7 +29,10 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNav"
         android:layout_below="@id/appBarLayout"
-        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/mobile_navigation" />
 

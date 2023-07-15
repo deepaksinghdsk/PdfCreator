@@ -46,7 +46,7 @@
                 app:layout_constraintRight_toRightOf="@+id/camera"
                 app:layout_constraintTop_toBottomOf="@id/camera" />
 
-            <!--<ImageButton
+            <ImageButton
                 android:id="@+id/gallery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,9 +56,9 @@
                 android:src="@drawable/insert_photo"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv1" />-->
+                app:layout_constraintTop_toBottomOf="@id/tv1" />
 
-            <!--<TextView
+            <TextView
                 android:id="@+id/tv2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv1" />-->
+                app:layout_constraintTop_toBottomOf="@id/gallery" />
 
             <ImageButton
                 android:id="@+id/attach"
@@ -79,10 +79,9 @@
                 android:background="@drawable/full_white_background_border"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_attach_file_black_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv1" />
+                app:layout_constraintTop_toBottomOf="@+id/tv2" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,7 +93,7 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@+id/attach"
                 app:layout_constraintRight_toRightOf="@+id/attach"
-                app:layout_constraintTop_toBottomOf="@id/attach" />
+                app:layout_constraintTop_toBottomOf="@id/attach"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
