@@ -9,17 +9,18 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.create.CreateFragment">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/container_without_border"
+                android:gravity="center">
 
             <ImageButton
                 android:id="@+id/camera"
@@ -46,6 +47,17 @@
                 app:layout_constraintRight_toRightOf="@+id/camera"
                 app:layout_constraintTop_toBottomOf="@id/camera" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/circle"
+                android:gravity="center">
+
             <ImageButton
                 android:id="@+id/gallery"
                 android:layout_width="wrap_content"
@@ -71,6 +83,17 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gallery" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/container_without_border"
+                android:orientation="vertical"
+                android:gravity="center">
+
             <ImageButton
                 android:id="@+id/attach"
                 android:layout_width="wrap_content"
@@ -95,9 +118,9 @@
                 app:layout_constraintRight_toRightOf="@+id/attach"
                 app:layout_constraintTop_toBottomOf="@id/attach"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
-    </ScrollView>
+            </LinearLayout>
     <!--
         <include
             layout="@layout/name_bottom_sheet"/>-->

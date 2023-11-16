@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -94,7 +95,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    public void onBackPressed(){
+    public void onBackPressed() {
 
     }
 
@@ -107,7 +108,6 @@ public class HomeFragment extends Fragment {
         final SearchView sv = (SearchView) item.getActionView();
 
         sv.setQueryHint("Search pdf");
-
 
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -156,13 +156,13 @@ public class HomeFragment extends Fragment {
                 /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
                     externalUri = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL);
                 else*/
-                    externalUri = MediaStore.Files.getContentUri("external");
+                externalUri = MediaStore.Files.getContentUri("external");
 
                 Uri internalUri;// = MediaStore.Files.getContentUri("internal");
                 /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
                     internalUri = MediaStore.Files.getContentUri(MediaStore.VOLUME_INTERNAL);
                 else*/
-                    internalUri = MediaStore.Files.getContentUri("internal");
+                internalUri = MediaStore.Files.getContentUri("internal");
 
 
                 String[] column = {MediaStore.Files.FileColumns.DATA,
@@ -200,7 +200,7 @@ public class HomeFragment extends Fragment {
                     Log.i(tag, "cursor is null in else block of code for android block for 10");
 
                 Log.i(tag, "getting PDFs first time");
-                Log.i(tag, "All pdfs fetched, no: "+pdfDocs.size());
+                Log.i(tag, "All pdfs fetched, no: " + pdfDocs.size());
 
                 handler.post(new Runnable() {
                     @Override
@@ -222,14 +222,20 @@ public class HomeFragment extends Fragment {
 
         if (ContextCompat.checkSelfPermission(c, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
-            } else {*/
-            //ActivityCompat.requestPermissions(this.requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
-            //this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
-            this.requestPermissions(new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, 101);
+            } else {
+                ActivityCompat.requestPermissions(this.requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+                this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(Manifest.permission.MANAGE_EXTERNAL_STORAGE)) {
+                    // Explain to the user why we need to read the contacts
 
-            //}
+                }
+
+                this.requestPermissions(new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, 101);
+
+            }
         } else {
             getPDFs();
         }
@@ -238,7 +244,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        Log.d(tag, "inside permission result "+requestCode);
+        Log.d(tag, "inside permission result " + requestCode);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 101) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {

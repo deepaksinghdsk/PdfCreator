@@ -34,7 +34,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class CreateFragment extends Fragment implements View.OnClickListener {
 
-    private String tag = "CreateFragment";
+    private final String tag = "CreateFragment";
     final private int imageFromGalleryCode = 101, fileExplorerCode = 102, getImageFromImagePickerClass = 103;
     private Context c;
     //private Handler handler = new Handler(Looper.getMainLooper());
@@ -77,17 +77,18 @@ public class CreateFragment extends Fragment implements View.OnClickListener {
             Log.d(tag, "Gallery is clicked");
 
             //use image_picker.java class
-            Intent imagePicker = new Intent(c, image_picker.class);
-            startActivityForResult(imagePicker, getImageFromImagePickerClass);
+            //Intent imagePicker = new Intent(c, image_picker.class);
+            //startActivityForResult(imagePicker, getImageFromImagePickerClass);
 
             //use phones default gallery
-            /*Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK);
             galleryIntent.setType("image/*");
+            galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 
             if (galleryIntent.resolveActivity(c.getPackageManager()) != null) {
                 startActivityForResult(Intent.createChooser(galleryIntent, "Select images with"), imageFromGalleryCode);
-            }*/
+            }
 
             //use gallery from library
             /*Intent intent = new Intent(c, GalleryActivity.class);
